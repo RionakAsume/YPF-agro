@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import { createContext, useState, useContext, ReactNode } from "react";
 import { getOrdenIdRequest } from "../api/orden";
 import { putStatusRequest } from "../api/status";
 
@@ -46,7 +46,7 @@ export const DetalleProvider = ({ children }:DetalleProviderProps) => {
     const updateStatus = async (id:number, estado:{ status: number }) => {
       try {
         const res = await putStatusRequest(id, estado);
-       //console.log("Estado de shipment_status actualizado", res.data);
+       console.log("Estado de shipment_status actualizado", res.data);
     
        
   
