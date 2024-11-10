@@ -1,7 +1,18 @@
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext, useState,useEffect,ReactNode  } from "react";
 import { getOrdenRequest } from "../api/orden";
 
-const OrdenContext = createContext();
+interface OrdenContextType {
+    orden: any[]; 
+    getOrden: () => Promise<void>;
+  }
+  
+
+  interface OrdenProviderProps {
+    children: ReactNode;
+  }
+  
+
+const OrdenContext = createContext<OrdenContextType | null>(null);
 
 export const useOrden = () => {
     const context = useContext(OrdenContext)
@@ -13,7 +24,7 @@ export const useOrden = () => {
     return context
 }
 
-export function OrdenProvider({ children }) {
+export function OrdenProvider({ children }:OrdenProviderProps) {
 
     const [orden, setOrden] = useState([])
 
@@ -21,7 +32,7 @@ export function OrdenProvider({ children }) {
         try {
 
             const res = await getOrdenRequest();
-            console.log('Respuesta de la API:', res.data); 
+           // console.log('Respuesta de la API:', res.data); 
             setOrden(res.data.data || [])
         } catch (error) {
             console.log(error)

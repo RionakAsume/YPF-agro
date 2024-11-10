@@ -1,13 +1,13 @@
 import { FaBox } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Followcard = ({ orden, status }) => {
+const Followcard = ({ orden, status }:any) => {
   const { id, createdAt, cliente, router, vendedor } = orden;
 
   const { shipment_status = { description: "Sin estado" } } = status;
   const formattedDate = new Date(createdAt).toLocaleDateString("es-ES"); //la fecha y hora es toLocaleString
 
-  const getStatusColor = (description) => {
+  const getStatusColor = (description:string) => {
     switch (description) {
       case "Entregado":
         return "bg-green-500";

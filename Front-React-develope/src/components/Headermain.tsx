@@ -4,7 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 
-const Headermain = ({nombre,children}) => {
+
+
+const Headermain = ({nombre,children}:any) => {
 
   const { logoutUser } = useAuth();
 

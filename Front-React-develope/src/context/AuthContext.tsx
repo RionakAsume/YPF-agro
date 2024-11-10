@@ -1,8 +1,24 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { registerRequest, loginRequest, registerClienteRequest, verifyTokenRequest, logout } from "../api/auth";
 import Cookies from 'js-cookie'
 
-export const AuthContext = createContext();
+interface AuthContextType {
+  user: any | null; 
+  isAutheticaded: boolean;
+  authErrors: string[];
+  loading: boolean;
+  signup: (user: any) => Promise<any | void>;
+  signin: (user: any) => Promise<any | void>;
+  signupCliente: (user: any) => Promise<void>;
+  logoutUser: () => Promise<void>;
+}
+
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -12,21 +28,21 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState(null);
   const [isAutheticaded, setIsAutheticaded] = useState(false);
-  const [authErrors, setAuthErros] = useState([]);
+  const [authErrors, setAuthErros] = useState<string[]>([]);
   const [loading, setLoading] = useState(true)
 
-console.log('user',user)
 
-  const signup = async (user) => {
+
+  const signup = async (user: any) => {
     try {
       const res = await registerRequest(user);
       console.log(res)
       setIsAutheticaded(true);
       return res.data; // Devuelve el usuario creado
-    } catch (error) {
+    } catch (error:any) {
       if (Array.isArray(error.response.data)) {
         setAuthErros(error.response.data);
       } else {
@@ -35,16 +51,16 @@ console.log('user',user)
     }
   };
 
-  const signin = async (user) => {
+  const signin = async (user:any) => {
     try {
       const res = await loginRequest(user);
 
-      const createdUser = res.data; // Asegúrate de que devuelve el usuario creado
-      setUser(createdUser); // Actualiza el contexto con el usuario
+      const createdUser = res.data; 
+      setUser(createdUser); 
       setIsAutheticaded(true);
-      return createdUser; // Devuelve el usuario creado
+      return createdUser; 
 
-    } catch (error) {
+    } catch (error:any) {
       if (Array.isArray(error.response.data)) {
         return setAuthErros(error.response.data);
       }
@@ -52,12 +68,12 @@ console.log('user',user)
     }
   };
 
-  const signupCliente = async (user) => {
+  const signupCliente = async (user:any) => {
     try {
       const res = await registerClienteRequest(user);
       console.log(res);
 
-    } catch (error) {
+    } catch (error:any) {
       if (Array.isArray(error.response.data)) {
         return setAuthErros(error.response.data);
       }
@@ -72,7 +88,7 @@ console.log('user',user)
       setUser(null);
       setIsAutheticaded(false);
 
-    } catch (error) {
+    } catch (error:any) {
       if (Array.isArray(error.response.data)) {
         return setAuthErros(error.response.data);
       }
@@ -114,7 +130,7 @@ console.log('user',user)
         setUser(null);
         setIsAutheticaded(false);
       } finally {
-        setLoading(false); // Asegúrate de siempre finalizar el estado de carga
+        setLoading(false); 
       }
     }
   

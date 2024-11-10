@@ -1,8 +1,23 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { getOrdenIdRequest } from "../api/orden";
 import { putStatusRequest } from "../api/status";
 
-export const DetalleordenContext = createContext();
+interface DetalleContextType {
+  ordenDetalle: OrdenDetalle | null;
+  getOrdenDetalleId: (Id: number) => Promise<void>;
+  updateStatus: (id:  number, estado: { status: number }) => Promise<void>;
+}
+
+interface DetalleProviderProps {
+  children: ReactNode;
+}
+
+interface OrdenDetalle {
+  orders_details: any[]; 
+}
+
+
+export const DetalleordenContext = createContext<DetalleContextType | null>(null);
 
 export const useDetalle = () => {
   const context = useContext(DetalleordenContext);
@@ -12,26 +27,26 @@ export const useDetalle = () => {
   return context;
 };
 
-export const DetalleProvider = ({ children }) => {
+export const DetalleProvider = ({ children }:DetalleProviderProps) => {
 
-    const [ordenDetalle, setOrdenDetalle] = useState([])
+  const [ordenDetalle, setOrdenDetalle] = useState<OrdenDetalle | null>(null);
 
-    const getOrdenDetalleId = async (Id) => {
+    const getOrdenDetalleId = async (Id:number) => {
         try {
 
             const res = await getOrdenIdRequest(Id);
             console.log('Respuesta de la Ordendetallado:', res.data); 
-            setOrdenDetalle(res.data.data || [])
+            setOrdenDetalle(res.data.data || null)
         } catch (error) {
             console.log(error)
-            setOrdenDetalle([]);
+            setOrdenDetalle(null);
         }
 
     }
-    const updateStatus = async (id, estado) => {
+    const updateStatus = async (id:number, estado:{ status: number }) => {
       try {
         const res = await putStatusRequest(id, estado);
-        console.log("Estado de shipment_status actualizado", res.data);
+       //console.log("Estado de shipment_status actualizado", res.data);
     
        
   

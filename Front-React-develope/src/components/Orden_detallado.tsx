@@ -1,6 +1,6 @@
 
 
-export const Orden_detallado = (detalle) => {
+export const Orden_detallado = (detalle:any) => {
     console.log(detalle)
     return (
        

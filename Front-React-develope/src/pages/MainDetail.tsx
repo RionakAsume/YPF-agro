@@ -9,16 +9,19 @@ import { useStatus } from "../context/StatusContext";
 import { Formik, Form } from "formik";
 import { YpfFactura } from "../assets/logo";
 
+
+
+
 export const MainDetail = () => {
   const [cambioStatus, setCambioStatus] = useState(false)
   const { ordenDetalle, getOrdenDetalleId, updateStatus } = useDetalle();
   const { orden} = useOrden();
   const { status, getStatus } = useStatus();
-  const params = useParams();
+  const params:any = useParams();
   const { orders_details = [] } = ordenDetalle || {};
 
   const ordenCorrespondiente = orden.find((orde) =>
-    orders_details.some((detalle) => detalle.order_id === orde.id)
+    orders_details.some((detalle:any) => detalle.order_id === orde.id)
   );
 
   const statusCorrespondiente = status.find(
@@ -31,7 +34,7 @@ export const MainDetail = () => {
 
 
 
-  const getStatusColor = (description) => {
+  const getStatusColor = (description:string) => {
     switch (description) {
       case "Entregado":
         return "bg-green-500";
@@ -70,7 +73,7 @@ export const MainDetail = () => {
     return <p>Cargando detalles de la orden...</p>;
   }
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values:any) => {
 
 
 
@@ -166,7 +169,7 @@ export const MainDetail = () => {
           </div>
                       <h1 className="font-bold mt-10 text-2xl">Detalle</h1>
           {orders_details.length > 0 ? (
-            orders_details.map((detalle) => (
+            orders_details.map((detalle:any) => (
               <section
                 className="flex justify-center flex-col items-center w-[100%]"
                 key={detalle.id}

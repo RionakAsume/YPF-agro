@@ -1,6 +1,6 @@
 import Headermain from "../components/Headermain";
 import Followcard from "../components/Followcard";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -13,7 +13,7 @@ import BotonRegistro from "../components/BotonRegistro";
 export const Main = () => {
 
   const { user } = useAuth()
-  const { orden,getOrden } = useOrden()
+  const { orden } = useOrden()
   const { status } = useStatus()
 
 
@@ -22,7 +22,7 @@ export const Main = () => {
 
 
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e:any) => {
     setBusqueda(e.target.value);
   };
 

@@ -1,7 +1,20 @@
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext, useState,useEffect,ReactNode } from "react";
 import { getStatusRequest } from "../api/status";
 
-const StatusContext = createContext();
+
+interface OrdenContextType {
+    status: any[]; 
+    getStatus: () => Promise<void>;
+  }
+  
+
+  interface OrdenProviderProps {
+    children: ReactNode;
+  }
+  
+
+
+const StatusContext = createContext<OrdenContextType | null>(null);
 
 export const useStatus = () => {
     const context = useContext(StatusContext)
@@ -13,7 +26,7 @@ export const useStatus = () => {
     return context
 }
 
-export function StatusProvider({ children }) {
+export function StatusProvider({ children }:OrdenProviderProps) {
 
     const [status, setStatus] = useState([])
 
@@ -21,7 +34,7 @@ export function StatusProvider({ children }) {
         try {
 
             const res = await getStatusRequest();
-            console.log('Respuesta de la API status:', res.data); 
+            //console.log('Respuesta de la API status:', res.data); 
             setStatus(res.data.data || [])
         } catch (error) {
             console.log(error)

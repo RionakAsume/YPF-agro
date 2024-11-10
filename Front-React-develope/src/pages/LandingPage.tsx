@@ -1,7 +1,7 @@
 import { LogoLand } from "../assets/logo";
 import { useAuth } from "../context/AuthContext";
 import { Login, Logout } from "../components/LoginLandingPage"; 
-import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 
 export const LandingPage = () => {
