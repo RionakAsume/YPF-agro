@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const db = new Sequelize(process.env.CONECTDB_URL!, {
-  models: [__dirname + '/../models/**/*.ts'], // Carga los modelos
+  models: [__dirname + '/../models/**/*'], // Carga los modelos
   schema: 'public', // Especifica el esquema público
   logging: console.log, // Opción para ver las consultas en la consola (opcional)
   dialectOptions: {
